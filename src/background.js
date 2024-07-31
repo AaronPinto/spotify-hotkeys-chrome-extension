@@ -8,40 +8,40 @@ function onCommand(command) {
 		if (tabs.length === 0) chrome.tabs.create({url: 'https://open.spotify.com/collection/tracks'});
 
 		for (let tab of tabs) {
-			let button_id = '';
+			let filter = '';
 
 			if (tab.url.startsWith('https://open.spotify.com')) {
 				switch (command) {
 					case 'next':
-						button_id = ".mnipjT4SLDMgwiDCEnRC";
+						filter = 'button[data-testid="control-button-skip-forward"]';
 						break;
 					case 'previous':
-						button_id = ".fn72ari9aEmKo4JcwteT";
+						filter = 'button[data-testid="control-button-skip-back"]';
 						break;
 					case 'shuffle':
-						button_id = ".KVKoQ3u4JpKTvSSFtd6J";
+						filter = 'button[data-testid="control-button-shuffle"]';
 						break;
 					case 'repeat':
-						button_id = ".Vz6yjzttS0YlLcwrkoUR";
+						filter = 'button[data-testid="control-button-repeat"]';
 						break;
 					case 'track-add':
-						button_id = ".Fm7C3gdh5Lsc9qSXrQwO";
+						filter = 'button[class="Button-sc-1dqy6lx-0 gqhkFI"]';
 						break;
 					case 'play-pause':
-						button_id = ".vnCew8qzJq3cVGlYFXRI";
+						filter = 'button[data-testid="control-button-playpause"]';
 						break;
 					case 'mute-unmute':
-						button_id = ".FZhaXNtbN3Crwrgd0TA7";
+						filter = 'button[data-testid="volume-bar-toggle-mute-button"]';
 						break;
 				}
 			}
 
 			// Apply command on only 1 spotify tab.
-			if (button_id.length) {
+			if (filter.length) {
 				chrome.scripting.executeScript({
 					target: {tabId: tab.id},
 					func: clickButton,
-					args: [button_id],
+					args: [filter],
 				});
 				break;
 			}
